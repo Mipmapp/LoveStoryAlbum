@@ -34,32 +34,33 @@ export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps)
     '/photos/just-us.jpg',
   ];
 
-  // Generate falling images when music plays
+  // Generate falling images on page load - always falling
   useEffect(() => {
-    if (isMusicPlaying) {
-      const images: FallingImage[] = [];
-      // Increase number of images to cover entire screen
-      for (let i = 0; i < 50; i++) {
-        images.push({
-          id: i,
-          src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
-          left: Math.random() * 100,
-          duration: 10 + Math.random() * 8,
-          delay: Math.random() * 8,
-          size: 60 + Math.random() * 100,
-          rotation: Math.random() * 40 - 20,
-        });
-      }
-      setFallingImages(images);
-    } else {
-      setFallingImages([]);
+    const images: FallingImage[] = [];
+    // Increase number of images to cover entire screen
+    for (let i = 0; i < 50; i++) {
+      images.push({
+        id: i,
+        src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
+        left: Math.random() * 100,
+        duration: 10 + Math.random() * 8,
+        delay: Math.random() * 8,
+        size: 60 + Math.random() * 100,
+        rotation: Math.random() * 40 - 20,
+      });
     }
-  }, [isMusicPlaying]);
+    setFallingImages(images);
+  }, []);
   return (
     <div className="w-full max-w-3xl mx-auto page-flip relative">
-      {/* Falling Images Effect - Covers entire screen */}
+      {/* Falling Images Effect - Always falling, visible only when music plays */}
       {fallingImages.length > 0 && (
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div 
+          className="fixed inset-0 pointer-events-none overflow-hidden z-0 transition-opacity duration-1000"
+          style={{
+            opacity: isMusicPlaying ? 1 : 0,
+          }}
+        >
           {fallingImages.map((img) => (
             <div
               key={img.id}
