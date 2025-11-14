@@ -26,6 +26,7 @@ export default function Scrapbook() {
   const [isScrapbookOpen, setIsScrapbookOpen] = useState(false);
   const [showHiddenSurprise, setShowHiddenSurprise] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showBrightnessNotification, setShowBrightnessNotification] = useState(false);
   
   // Calculate total pages from configuration
   const totalPages = scrapbookPages.length - 1; // -1 because cover is index 0
@@ -95,6 +96,12 @@ export default function Scrapbook() {
   const openScrapbook = () => {
     setIsScrapbookOpen(true);
     setCurrentPage(1);
+    
+    // Show brightness and sound notification
+    setShowBrightnessNotification(true);
+    setTimeout(() => {
+      setShowBrightnessNotification(false);
+    }, 10000); // Hide after 10 seconds
     
     // Start background music when opening scrapbook
     if (backgroundMusicRef.current && !isBackgroundMusicPlaying) {
@@ -178,6 +185,41 @@ export default function Scrapbook() {
     <>
       {/* Loading Screen */}
       {isLoading && <LoadingScreen onLoadComplete={handleLoadComplete} />}
+      
+      {/* Brightness & Sound Notification */}
+      {showBrightnessNotification && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-card/95 backdrop-blur-lg border-2 border-primary rounded-lg p-6 max-w-md mx-4 shadow-2xl animate-in fade-in zoom-in duration-500 pointer-events-auto">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <Heart className="w-10 h-10 text-primary fill-primary animate-pulse" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-handwritten text-card-foreground mb-2" data-testid="text-notification-title">
+                  For the best experience
+                </h3>
+                <div className="space-y-2 text-card-foreground/90">
+                  <p className="font-playful" data-testid="text-brightness-instruction">
+                    <span className="font-semibold">Brightness:</span> Set to 50-100%
+                  </p>
+                  <p className="font-playful" data-testid="text-sound-instruction">
+                    <span className="font-semibold">Sound:</span> Set to 60-100%
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="mt-3"
+                  onClick={() => setShowBrightnessNotification(false)}
+                  data-testid="button-dismiss-notification"
+                >
+                  Got it
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="min-h-screen w-full paper-texture overflow-x-hidden">
       {/* Hidden Surprise Modal */}

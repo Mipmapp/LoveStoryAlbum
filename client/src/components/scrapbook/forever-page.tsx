@@ -38,14 +38,15 @@ export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps)
   useEffect(() => {
     if (isMusicPlaying) {
       const images: FallingImage[] = [];
-      for (let i = 0; i < 20; i++) {
+      // Increase number of images to cover entire screen
+      for (let i = 0; i < 50; i++) {
         images.push({
           id: i,
           src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
           left: Math.random() * 100,
-          duration: 8 + Math.random() * 4,
-          delay: Math.random() * 3,
-          size: 60 + Math.random() * 80,
+          duration: 10 + Math.random() * 8,
+          delay: Math.random() * 8,
+          size: 60 + Math.random() * 100,
           rotation: Math.random() * 40 - 20,
         });
       }
@@ -56,13 +57,13 @@ export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps)
   }, [isMusicPlaying]);
   return (
     <div className="w-full max-w-3xl mx-auto page-flip relative">
-      {/* Falling Images Effect */}
+      {/* Falling Images Effect - Covers entire screen */}
       {fallingImages.length > 0 && (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           {fallingImages.map((img) => (
             <div
               key={img.id}
-              className="absolute -top-20 opacity-70 rounded-lg shadow-lg animate-fall"
+              className="absolute animate-fall"
               style={{
                 left: `${img.left}%`,
                 width: `${img.size}px`,
