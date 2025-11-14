@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Heart, Flower2, Sunrise, Cake, Plane, TreePine, Users } from 'lucide-react';
+import { Heart, Flower2, Church, Gift, Plane, Users } from 'lucide-react';
 
 interface FavoriteMemoriesPageProps {
   onHiddenClick: () => void;
@@ -10,12 +10,12 @@ export function FavoriteMemoriesPage({ onHiddenClick }: FavoriteMemoriesPageProp
   const [hoveredPhoto, setHoveredPhoto] = useState<number | null>(null);
 
   const memories = [
-    { icon: Flower2, caption: 'Our first date', rotation: -4 },
-    { icon: Sunrise, caption: 'Sunset together', rotation: 3 },
-    { icon: Cake, caption: 'Your birthday surprise', rotation: -2 },
-    { icon: Plane, caption: 'Our adventure', rotation: 2 },
-    { icon: TreePine, caption: 'Holidays together', rotation: -3 },
-    { icon: Users, caption: 'Just us', rotation: 4 },
+    { icon: Flower2, caption: 'Our first date', rotation: -4, imageUrl: '/photos/first-date-memory.jpg' },
+    { icon: Church, caption: 'Church together', rotation: 3, imageUrl: '/photos/church-together.jpg' },
+    { icon: Gift, caption: 'Gifts', rotation: -2, imageUrl: '/photos/gifts.jpg' },
+    { icon: Plane, caption: 'Our adventure', rotation: 2, imageUrl: '/photos/adventure-memory.jpg' },
+    { icon: Heart, caption: 'Our first hug day', rotation: -3, imageUrl: '/photos/first-hug.jpg' },
+    { icon: Users, caption: 'Just us', rotation: 4, imageUrl: '/photos/just-us.jpg' },
   ];
 
   return (
@@ -50,22 +50,59 @@ export function FavoriteMemoriesPage({ onHiddenClick }: FavoriteMemoriesPageProp
                 }}
               ></div>
 
-              <Card
-                className="bg-white p-4 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-110 cursor-pointer"
-                style={{ transform: `rotate(${memory.rotation}deg)`, '--rotation': `${memory.rotation}deg` } as React.CSSProperties}
-                data-testid={`polaroid-memory-${index}`}
+              <div
+                className="relative w-full aspect-[3/4] transition-all duration-700 preserve-3d"
+                style={{
+                  transform: hoveredPhoto === index 
+                    ? `rotate(${memory.rotation}deg) rotateY(180deg)` 
+                    : `rotate(${memory.rotation}deg)`,
+                  transformStyle: 'preserve-3d',
+                }}
               >
-                <div className="aspect-square bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 mb-3 flex items-center justify-center">
-                  <memory.icon className="w-20 h-20 text-primary/60 stroke-[1.5]" />
-                </div>
-                <p
-                  className={`text-center font-playful text-sm text-gray-700 transition-all duration-300 ${
-                    hoveredPhoto === index ? 'opacity-100 font-medium' : 'opacity-70'
-                  }`}
+                {/* Front of card (icon) */}
+                <Card
+                  className="absolute inset-0 bg-white p-4 shadow-xl cursor-pointer backface-hidden"
+                  data-testid={`polaroid-memory-${index}`}
+                  style={{ backfaceVisibility: 'hidden' }}
                 >
-                  {memory.caption}
-                </p>
-              </Card>
+                  <div className="aspect-square bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 mb-3 flex items-center justify-center">
+                    <memory.icon className="w-20 h-20 text-primary/60 stroke-[1.5]" />
+                  </div>
+                  <p className="text-center font-playful text-sm text-gray-700 opacity-70">
+                    {memory.caption}
+                  </p>
+                </Card>
+
+                {/* Back of card (photo) */}
+                <Card
+                  className="absolute inset-0 bg-white p-4 shadow-xl cursor-pointer backface-hidden"
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    transform: 'rotateY(180deg)',
+                  }}
+                >
+                  <div className="aspect-square mb-3 overflow-hidden rounded-md">
+                    <img 
+                      src={memory.imageUrl} 
+                      alt={memory.caption}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        if (target.nextElementSibling) {
+                          (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                        }
+                      }}
+                    />
+                    <div className="hidden w-full h-full bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 items-center justify-center">
+                      <memory.icon className="w-20 h-20 text-primary/60 stroke-[1.5]" />
+                    </div>
+                  </div>
+                  <p className="text-center font-playful text-sm text-gray-700 font-medium">
+                    {memory.caption}
+                  </p>
+                </Card>
+              </div>
 
               {/* Hidden surprise on first photo */}
               {index === 0 && (
