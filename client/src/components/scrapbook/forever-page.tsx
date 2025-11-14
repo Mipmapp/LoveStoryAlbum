@@ -24,7 +24,7 @@ export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsButtonEnabled(true);
-    }, 3000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
