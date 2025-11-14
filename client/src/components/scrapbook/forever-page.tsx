@@ -19,6 +19,16 @@ interface FallingImage {
 }
 
 export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps) {
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="w-full max-w-3xl mx-auto page-flip relative">
       {/* Falling images are now managed globally in scrapbook.tsx */}
@@ -62,10 +72,15 @@ export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps)
           <Button
             size="lg"
             onClick={onMusicToggle}
-            className="text-lg px-8 py-6 font-playful shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 gap-3"
+            disabled={!isButtonEnabled}
+            className={`text-lg px-8 py-6 font-playful shadow-lg hover:shadow-xl transition-all duration-1000 gap-3 ${
+              isButtonEnabled 
+                ? 'opacity-100 scale-100 hover:scale-105' 
+                : 'opacity-30 scale-95 cursor-not-allowed'
+            }`}
             data-testid="button-play-song"
           >
-            <Music className="w-5 h-5" />
+            <Music className={`w-5 h-5 transition-all duration-1000 ${isButtonEnabled ? '' : 'opacity-50'}`} />
             {isMusicPlaying ? 'Pause Our Song' : 'Play Our Song'}
           </Button>
         </div>
