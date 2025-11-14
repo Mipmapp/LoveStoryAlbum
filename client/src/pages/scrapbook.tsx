@@ -286,14 +286,23 @@ export default function Scrapbook() {
       
       {/* Brightness & Sound Notification */}
       {showBrightnessNotification && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+        <>
+          {/* Backdrop blur overlay */}
           <div 
-            className={`bg-card/95 backdrop-blur-lg border-2 border-primary rounded-lg p-6 max-w-md mx-4 shadow-2xl pointer-events-auto transition-all duration-500 ${
-              isNotificationExiting 
-                ? 'opacity-0 scale-95 translate-y-4' 
-                : 'opacity-100 scale-100 translate-y-0 animate-in fade-in zoom-in'
+            className={`fixed inset-0 z-40 backdrop-blur-md bg-black/20 transition-opacity duration-500 ${
+              isNotificationExiting ? 'opacity-0' : 'opacity-100'
             }`}
-          >
+          />
+          
+          {/* Notification content */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+            <div 
+              className={`bg-card/95 backdrop-blur-lg border-2 border-primary rounded-lg p-6 max-w-md mx-4 shadow-2xl pointer-events-auto transition-all duration-500 ${
+                isNotificationExiting 
+                  ? 'opacity-0 scale-95 translate-y-4' 
+                  : 'opacity-100 scale-100 translate-y-0 animate-in fade-in zoom-in'
+              }`}
+            >
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <Heart className="w-10 h-10 text-primary fill-primary animate-pulse" />
@@ -322,7 +331,8 @@ export default function Scrapbook() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </>
       )}
       
       <div className="min-h-screen w-full paper-texture overflow-x-hidden">
