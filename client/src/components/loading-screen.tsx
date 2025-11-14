@@ -131,7 +131,7 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
 
         <div className="space-y-2">
           <h2 className="text-3xl font-handwritten text-primary" data-testid="text-loading-title">
-            Preparing Your Love Story
+            Preparing Our Love Story
           </h2>
           <p className="text-muted-foreground font-playful">
             Loading precious memories...
