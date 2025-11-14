@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Heart, Music, ChevronLeft, ChevronRight, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAudio } from '@/hooks/use-audio';
+import { LoadingScreen } from '@/components/loading-screen';
 
 // Import all page components
 import { CoverPage } from '@/components/scrapbook/cover-page';
@@ -15,21 +16,40 @@ import { StoryPage } from '@/components/scrapbook/story-page';
 // Import pages configuration
 import { scrapbookPages } from '@/config/scrapbook-pages';
 
-// Using a soft romantic piano music from a free source
-// You can replace this URL with your own song URL
-const BACKGROUND_MUSIC_URL = '/our-song.mp3'
+// Music URLs - Replace with your own music files
+const BACKGROUND_MUSIC_URL = '/background-music.mp3'; // Background music when browsing scrapbook
+const OUR_SONG_URL = '/our-song.mp3'; // Special song on the last page
 
 export default function Scrapbook() {
   // Current page state (0 = cover, 1+ = scrapbook pages)
   const [currentPage, setCurrentPage] = useState(0);
   const [isScrapbookOpen, setIsScrapbookOpen] = useState(false);
   const [showHiddenSurprise, setShowHiddenSurprise] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Calculate total pages from configuration
   const totalPages = scrapbookPages.length - 1; // -1 because cover is index 0
   
-  // Audio playback hook
-  const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useAudio(BACKGROUND_MUSIC_URL);
+  // Audio references
+  const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
+  const ourSongRef = useRef<HTMLAudioElement | null>(null);
+  const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] = useState(false);
+  const [isOurSongPlaying, setIsOurSongPlaying] = useState(false);
+  
+  // Initialize audio elements
+  useEffect(() => {
+    backgroundMusicRef.current = new Audio(BACKGROUND_MUSIC_URL);
+    backgroundMusicRef.current.loop = true;
+    backgroundMusicRef.current.volume = 0.3; // 30% volume
+    
+    ourSongRef.current = new Audio(OUR_SONG_URL);
+    ourSongRef.current.loop = true;
+    
+    return () => {
+      backgroundMusicRef.current?.pause();
+      ourSongRef.current?.pause();
+    };
+  }, []);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -66,10 +86,42 @@ export default function Scrapbook() {
     };
   }, []);
 
+  // Handle loading complete
+  const handleLoadComplete = () => {
+    setIsLoading(false);
+  };
+
   // Handle scrapbook opening
   const openScrapbook = () => {
     setIsScrapbookOpen(true);
     setCurrentPage(1);
+    
+    // Start background music when opening scrapbook
+    if (backgroundMusicRef.current && !isBackgroundMusicPlaying) {
+      backgroundMusicRef.current.play().catch(() => {
+        // Autoplay might be blocked, user will need to interact first
+      });
+      setIsBackgroundMusicPlaying(true);
+    }
+  };
+
+  // Toggle "Our Song" on the Forever page
+  const toggleOurSong = () => {
+    if (ourSongRef.current) {
+      if (isOurSongPlaying) {
+        ourSongRef.current.pause();
+        setIsOurSongPlaying(false);
+      } else {
+        // Stop background music when Our Song starts
+        if (backgroundMusicRef.current) {
+          backgroundMusicRef.current.pause();
+          setIsBackgroundMusicPlaying(false);
+        }
+        
+        ourSongRef.current.play();
+        setIsOurSongPlaying(true);
+      }
+    }
   };
 
   // Navigate between pages
@@ -116,14 +168,18 @@ export default function Scrapbook() {
       case 'love-letter':
         return <LoveLetterPage data-testid="page-love-letter" />;
       case 'forever':
-        return <ForeverPage onMusicToggle={toggleMusic} isMusicPlaying={isMusicPlaying} data-testid="page-forever" />;
+        return <ForeverPage onMusicToggle={toggleOurSong} isMusicPlaying={isOurSongPlaying} data-testid="page-forever" />;
       default:
         return <CoverPage onOpen={openScrapbook} data-testid="page-cover" />;
     }
   };
 
   return (
-    <div className="min-h-screen w-full paper-texture overflow-x-hidden">
+    <>
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen onLoadComplete={handleLoadComplete} />}
+      
+      <div className="min-h-screen w-full paper-texture overflow-x-hidden">
       {/* Hidden Surprise Modal */}
       {showHiddenSurprise && (
         <div
@@ -225,5 +281,6 @@ export default function Scrapbook() {
         </div>
       )}
     </div>
+    </>
   );
 }
