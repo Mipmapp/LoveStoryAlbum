@@ -220,9 +220,10 @@ export default function Scrapbook() {
       {/* Global Falling Images - Always falling in background */}
       {currentPage === totalPages && (
         <div 
-          className="fixed inset-0 pointer-events-none overflow-hidden z-0 transition-opacity duration-1000"
+          className="fixed inset-0 pointer-events-none overflow-hidden z-0"
           style={{
             opacity: isOurSongPlaying ? 1 : 0,
+            transition: 'opacity 5000ms ease-in-out',
           }}
         >
           {/* Generate falling images here */}
