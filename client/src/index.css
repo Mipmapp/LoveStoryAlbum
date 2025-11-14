@@ -318,19 +318,19 @@
 
 @keyframes fall {
   0% {
-    top: -150px;
+    top: -300px;
     opacity: 0;
   }
-  5% {
+  8% {
     opacity: 0;
   }
-  15% {
+  18% {
     opacity: 0.7;
   }
-  85% {
+  82% {
     opacity: 0.7;
   }
-  95% {
+  92% {
     opacity: 0;
   }
   100% {

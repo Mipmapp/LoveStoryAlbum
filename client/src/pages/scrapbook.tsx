@@ -27,6 +27,7 @@ export default function Scrapbook() {
   const [showHiddenSurprise, setShowHiddenSurprise] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showBrightnessNotification, setShowBrightnessNotification] = useState(false);
+  const [isNotificationExiting, setIsNotificationExiting] = useState(false);
   
   // Calculate total pages from configuration
   const totalPages = scrapbookPages.length - 1; // -1 because cover is index 0
@@ -92,6 +93,22 @@ export default function Scrapbook() {
     setIsLoading(false);
   };
 
+  // Fade out audio helper
+  const fadeOutAudio = (audioElement: HTMLAudioElement, duration: number = 1000) => {
+    const startVolume = audioElement.volume;
+    const fadeStep = startVolume / (duration / 50);
+    
+    const fadeInterval = setInterval(() => {
+      if (audioElement.volume > fadeStep) {
+        audioElement.volume -= fadeStep;
+      } else {
+        audioElement.volume = 0;
+        audioElement.pause();
+        clearInterval(fadeInterval);
+      }
+    }, 50);
+  };
+
   // Handle scrapbook opening
   const openScrapbook = () => {
     setIsScrapbookOpen(true);
@@ -99,9 +116,16 @@ export default function Scrapbook() {
     
     // Show brightness and sound notification
     setShowBrightnessNotification(true);
+    setIsNotificationExiting(false);
+    
+    // Auto-hide notification after 10 seconds with fade out
     setTimeout(() => {
-      setShowBrightnessNotification(false);
-    }, 10000); // Hide after 10 seconds
+      setIsNotificationExiting(true);
+      setTimeout(() => {
+        setShowBrightnessNotification(false);
+        setIsNotificationExiting(false);
+      }, 500); // Wait for fade out animation
+    }, 10000);
     
     // Start background music when opening scrapbook
     if (backgroundMusicRef.current && !isBackgroundMusicPlaying) {
@@ -112,6 +136,15 @@ export default function Scrapbook() {
     }
   };
 
+  // Dismiss notification with fade out
+  const dismissNotification = () => {
+    setIsNotificationExiting(true);
+    setTimeout(() => {
+      setShowBrightnessNotification(false);
+      setIsNotificationExiting(false);
+    }, 500);
+  };
+
   // Toggle "Our Song" on the Forever page
   const toggleOurSong = () => {
     if (ourSongRef.current) {
@@ -119,12 +152,13 @@ export default function Scrapbook() {
         ourSongRef.current.pause();
         setIsOurSongPlaying(false);
       } else {
-        // Stop background music when Our Song starts
-        if (backgroundMusicRef.current) {
-          backgroundMusicRef.current.pause();
+        // Fade out background music when Our Song starts
+        if (backgroundMusicRef.current && isBackgroundMusicPlaying) {
+          fadeOutAudio(backgroundMusicRef.current, 1500);
           setIsBackgroundMusicPlaying(false);
         }
         
+        ourSongRef.current.volume = 0.5;
         ourSongRef.current.play();
         setIsOurSongPlaying(true);
       }
@@ -189,7 +223,13 @@ export default function Scrapbook() {
       {/* Brightness & Sound Notification */}
       {showBrightnessNotification && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-card/95 backdrop-blur-lg border-2 border-primary rounded-lg p-6 max-w-md mx-4 shadow-2xl animate-in fade-in zoom-in duration-500 pointer-events-auto">
+          <div 
+            className={`bg-card/95 backdrop-blur-lg border-2 border-primary rounded-lg p-6 max-w-md mx-4 shadow-2xl pointer-events-auto transition-all duration-500 ${
+              isNotificationExiting 
+                ? 'opacity-0 scale-95 translate-y-4' 
+                : 'opacity-100 scale-100 translate-y-0 animate-in fade-in zoom-in'
+            }`}
+          >
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <Heart className="w-10 h-10 text-primary fill-primary animate-pulse" />
@@ -210,7 +250,7 @@ export default function Scrapbook() {
                   size="sm"
                   variant="ghost"
                   className="mt-3"
-                  onClick={() => setShowBrightnessNotification(false)}
+                  onClick={dismissNotification}
                   data-testid="button-dismiss-notification"
                 >
                   Got it
