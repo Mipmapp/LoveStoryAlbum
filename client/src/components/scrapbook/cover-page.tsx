@@ -15,11 +15,11 @@ export function CoverPage({ onOpen }: CoverPageProps) {
         
         {/* Main Title */}
         <h1 className="text-5xl md:text-7xl font-handwritten text-primary mb-4 leading-tight" data-testid="text-cover-title">
-          Hi, my love
+          To my lovely Girlfriend!
         </h1>
         <div className="flex items-center justify-center gap-3">
           <h2 className="text-3xl md:text-4xl font-handwritten text-card-foreground" data-testid="text-cover-subtitle">
-            this is our story
+            this is the special moments of our story
           </h2>
           <Heart className="w-8 h-8 text-primary fill-primary" />
         </div>

@@ -2,15 +2,16 @@ import { Heart } from 'lucide-react';
 
 export function ReasonsILoveYouPage() {
   const reasons = [
-    { text: 'You make me laugh every day', color: 'bg-yellow-100', rotation: -3 },
-    { text: 'You never give up on me', color: 'bg-pink-100', rotation: 2 },
-    { text: "You're my favorite home", color: 'bg-blue-100', rotation: -2 },
-    { text: 'You believe in my dreams', color: 'bg-green-100', rotation: 3 },
-    { text: 'Your smile brightens my world', color: 'bg-purple-100', rotation: -4 },
-    { text: 'You understand me like no one else', color: 'bg-orange-100', rotation: 2 },
-    { text: 'You make ordinary moments magical', color: 'bg-red-100', rotation: -3 },
-    { text: "You're my best friend forever", color: 'bg-teal-100', rotation: 4 },
+    { text: 'Your cuteness melts me every time', color: 'bg-yellow-100', rotation: -3 },
+    { text: 'Your presence makes everything feel lovely', color: 'bg-pink-100', rotation: 2 },
+    { text: 'You understand my heart in ways I can’t explain', color: 'bg-blue-100', rotation: -2 },
+    { text: 'You are breathtakingly beautiful', color: 'bg-green-100', rotation: 3 },
+    { text: 'Your smile lights up my world', color: 'bg-purple-100', rotation: -4 },
+    { text: 'You know me better than anyone ever has', color: 'bg-orange-100', rotation: 2 },
+    { text: 'You turn simple moments into unforgettable memories', color: 'bg-red-100', rotation: -3 },
+    { text: "With you, I feel safe, warm, and completely comfortable", color: 'bg-teal-100', rotation: 4 },
   ];
+
 
   return (
     <div className="w-full max-w-5xl mx-auto page-flip">
