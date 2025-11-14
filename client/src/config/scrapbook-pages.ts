@@ -31,10 +31,16 @@ export const scrapbookPages: PageConfig[] = [
       ],
       images: [
         {
-          url: '/photos/first-date.jpg',
+          url: '/photos/first-date-1.jpg',
           alt: 'Our first date',
           caption: 'The day everything changed',
           position: 'top',
+        },
+        {
+          url: '/photos/first-date-2.jpg',
+          alt: 'Our first date moment',
+          caption: 'A perfect beginning',
+          position: 'bottom',
         },
       ],
     },
