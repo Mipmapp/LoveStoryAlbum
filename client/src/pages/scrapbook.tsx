@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Heart, Music, ChevronLeft, ChevronRight, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAudio } from '@/hooks/use-audio';
@@ -165,6 +165,33 @@ export default function Scrapbook() {
     }
   };
 
+  // Generate falling images array once when Forever page is reached
+  const fallingImages = useMemo(() => {
+    if (currentPage !== totalPages) return [];
+    
+    const imageUrls = [
+      '/photos/first-date-1.jpg',
+      '/photos/how-we-met-1.jpg',
+      '/photos/how-we-met-2.jpg',
+      '/photos/first-date-memory.jpg',
+      '/photos/church-together.jpg',
+      '/photos/gifts.jpg',
+      '/photos/adventure-memory.jpg',
+      '/photos/first-hug.jpg',
+      '/photos/just-us.jpg',
+    ];
+    
+    return Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
+      left: Math.random() * 100,
+      duration: 10 + Math.random() * 8,
+      delay: Math.random() * 8,
+      size: 60 + Math.random() * 100,
+      rotation: Math.random() * 40 - 20,
+    }));
+  }, [currentPage, totalPages]);
+
   // Navigate between pages
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -228,29 +255,8 @@ export default function Scrapbook() {
               : 'opacity 2000ms ease-in-out', // 2 seconds fade-out
           }}
         >
-          {/* Generate falling images here */}
-          {Array.from({ length: 50 }, (_, i) => {
-            const imageUrls = [
-              '/photos/first-date-1.jpg',
-              '/photos/how-we-met-1.jpg',
-              '/photos/how-we-met-2.jpg',
-              '/photos/first-date-memory.jpg',
-              '/photos/church-together.jpg',
-              '/photos/gifts.jpg',
-              '/photos/adventure-memory.jpg',
-              '/photos/first-hug.jpg',
-              '/photos/just-us.jpg',
-            ];
-            return {
-              id: i,
-              src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
-              left: Math.random() * 100,
-              duration: 10 + Math.random() * 8,
-              delay: Math.random() * 8,
-              size: 60 + Math.random() * 100,
-              rotation: Math.random() * 40 - 20,
-            };
-          }).map((img) => (
+          {/* Falling images - animations start immediately when page loads */}
+          {fallingImages.map((img) => (
             <div
               key={img.id}
               className="absolute animate-fall"
