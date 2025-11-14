@@ -9,11 +9,13 @@ interface LoadingScreenProps {
 export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [loadedImages, setLoadedImages] = useState(0);
-  const [totalImages, setTotalImages] = useState(0);
+  const [loadedAudio, setLoadedAudio] = useState(0);
+  const [totalAssets, setTotalAssets] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
     const imageRefs: HTMLImageElement[] = [];
+    const audioRefs: HTMLAudioElement[] = [];
 
     const imagesToPreload = [
       '/photos/first-date-1.jpg',
@@ -31,7 +33,12 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
       '/photos/moment2.jpg',
     ];
 
-    setTotalImages(imagesToPreload.length);
+    const audioToPreload = [
+      '/background-music.mp3',
+      '/our-song.mp3',
+    ];
+
+    setTotalAssets(imagesToPreload.length + audioToPreload.length);
 
     const loadImage = (src: string): Promise<void> => {
       return new Promise((resolve) => {
@@ -54,8 +61,33 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
       });
     };
 
-    const loadAllImages = async () => {
-      await Promise.all(imagesToPreload.map(loadImage));
+    const loadAudio = (src: string): Promise<void> => {
+      return new Promise((resolve) => {
+        const audio = new Audio();
+        audioRefs.push(audio);
+        
+        audio.oncanplaythrough = () => {
+          if (isMounted) {
+            setLoadedAudio((prev) => prev + 1);
+          }
+          resolve();
+        };
+        audio.onerror = () => {
+          if (isMounted) {
+            setLoadedAudio((prev) => prev + 1);
+          }
+          resolve();
+        };
+        audio.src = src;
+        audio.load();
+      });
+    };
+
+    const loadAllAssets = async () => {
+      await Promise.all([
+        ...imagesToPreload.map(loadImage),
+        ...audioToPreload.map(loadAudio),
+      ]);
       if (isMounted) {
         setTimeout(() => {
           onLoadComplete();
@@ -63,7 +95,7 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
       }
     };
 
-    loadAllImages();
+    loadAllAssets();
 
     return () => {
       isMounted = false;
@@ -72,14 +104,20 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
         img.onerror = null;
         img.src = '';
       });
+      audioRefs.forEach(audio => {
+        audio.oncanplaythrough = null;
+        audio.onerror = null;
+        audio.src = '';
+      });
     };
   }, [onLoadComplete]);
 
   useEffect(() => {
-    if (totalImages > 0) {
-      setProgress((loadedImages / totalImages) * 100);
+    if (totalAssets > 0) {
+      const loadedCount = loadedImages + loadedAudio;
+      setProgress((loadedCount / totalAssets) * 100);
     }
-  }, [loadedImages, totalImages]);
+  }, [loadedImages, loadedAudio, totalAssets]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
@@ -103,7 +141,7 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
         <div className="space-y-2 px-8">
           <Progress value={progress} className="h-2" data-testid="progress-loading" />
           <p className="text-sm text-muted-foreground">
-            {loadedImages} of {totalImages} photos loaded
+            {loadedImages + loadedAudio} of {totalAssets} assets loaded
           </p>
         </div>
 

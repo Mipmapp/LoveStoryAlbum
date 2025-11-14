@@ -217,6 +217,61 @@ export default function Scrapbook() {
 
   return (
     <>
+      {/* Global Falling Images - Always falling in background */}
+      {currentPage === totalPages && (
+        <div 
+          className="fixed inset-0 pointer-events-none overflow-hidden z-0 transition-opacity duration-1000"
+          style={{
+            opacity: isOurSongPlaying ? 1 : 0,
+          }}
+        >
+          {/* Generate falling images here */}
+          {Array.from({ length: 50 }, (_, i) => {
+            const imageUrls = [
+              '/photos/first-date-1.jpg',
+              '/photos/how-we-met-1.jpg',
+              '/photos/how-we-met-2.jpg',
+              '/photos/first-date-memory.jpg',
+              '/photos/church-together.jpg',
+              '/photos/gifts.jpg',
+              '/photos/adventure-memory.jpg',
+              '/photos/first-hug.jpg',
+              '/photos/just-us.jpg',
+            ];
+            return {
+              id: i,
+              src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
+              left: Math.random() * 100,
+              duration: 10 + Math.random() * 8,
+              delay: Math.random() * 8,
+              size: 60 + Math.random() * 100,
+              rotation: Math.random() * 40 - 20,
+            };
+          }).map((img) => (
+            <div
+              key={img.id}
+              className="absolute animate-fall"
+              style={{
+                left: `${img.left}%`,
+                width: `${img.size}px`,
+                height: `${img.size}px`,
+                animationDuration: `${img.duration}s`,
+                animationDelay: `${img.delay}s`,
+              }}
+            >
+              <img
+                src={img.src}
+                alt="Memory"
+                className="w-full h-full object-cover rounded-lg border-4 border-white shadow-xl"
+                style={{
+                  transform: `rotate(${img.rotation}deg)`,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      
       {/* Loading Screen */}
       {isLoading && <LoadingScreen onLoadComplete={handleLoadComplete} />}
       
