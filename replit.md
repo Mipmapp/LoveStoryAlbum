@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a romantic digital scrapbook web application designed to tell a couple's love story through interactive pages. The application mimics a handmade scrapbook aesthetic with paper textures, polaroid frames, sticky notes, and handwritten fonts. Users can navigate through multiple themed pages including "How We Met," "Favorite Memories," "Reasons I Love You," a love letter page, and a forever page, all accompanied by optional background music.
+This is a romantic digital scrapbook web application designed to tell a couple's love story through interactive pages. The application features a Nintendo-style romantic aesthetic with paper textures, polaroid frames, sticky notes, and handwritten fonts. Users can navigate through multiple themed pages including "How We Met," "Favorite Memories," "Reasons I Love You," a love letter page, and a forever page. The app includes a preloading screen for images, background music that plays at 30% volume throughout, and a falling images animation effect on the final page.
 
 ## User Preferences
 
@@ -29,12 +29,25 @@ Preferred communication style: Simple, everyday language.
 **Page Structure**: Single-page application with six distinct scrapbook pages:
 1. Cover page with entry animation
 2. "How We Met" page with polaroid photo frames
-3. "Favorite Memories" page with photo grid
+3. "Favorite Memories" page with flip card effects (Gifts, Church together, Our first hug day)
 4. "Reasons I Love You" page with sticky notes
 5. Love letter page with envelope interaction
-6. Forever page with music controls
+6. Forever page with music controls and falling images animation
 
-**Audio Playback**: Custom useAudio hook managing HTML5 Audio API with play/pause controls and error handling
+**Audio Playback**: 
+- Custom useAudio hook managing HTML5 Audio API with play/pause controls and error handling
+- Background music system that plays at 30% volume when scrapbook opens
+- Background music stops when "Our Song" plays on the Forever page
+
+**Loading Screen**: 
+- Preloads all images before scrapbook opens to prevent late loading issues
+- Animated progress bar with heart icon
+- Clean up on unmount to prevent memory leaks
+
+**Animations**:
+- Flip card effects on Favorite Memories page (hover to reveal photos)
+- Falling images animation on Forever page when music plays
+- Memoized positions/rotations for performance optimization
 
 **Responsive Design**: Mobile-first approach with Tailwind breakpoints and useIsMobile hook
 
@@ -85,8 +98,9 @@ Preferred communication style: Simple, everyday language.
 
 **Customization Strategy**: 
 - Content customization through direct code editing (as documented in SCRAPBOOK_CUSTOMIZATION_GUIDE.md)
-- Photo replacement via public folder
-- Music URL configuration via constant
+- Photo replacement via public folder (see PHOTO_UPLOAD_GUIDE.md)
+- Music URL configuration via constant (see MUSIC_AND_LOADING_GUIDE.md)
+- Loading screen image list updates automatically when new photos are added
 
 ## External Dependencies
 
