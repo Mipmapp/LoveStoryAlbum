@@ -17,7 +17,7 @@ import { scrapbookPages } from '@/config/scrapbook-pages';
 
 // Using a soft romantic piano music from a free source
 // You can replace this URL with your own song URL
-const BACKGROUND_MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+const BACKGROUND_MUSIC_URL = '/our-song.mp3'
 
 export default function Scrapbook() {
   // Current page state (0 = cover, 1+ = scrapbook pages)
@@ -182,37 +182,9 @@ export default function Scrapbook() {
         {renderPage()}
       </div>
 
-      {/* Navigation Arrows (visible on scrapbook pages) */}
-      {currentPage > 0 && (
-        <>
-          {currentPage > 1 && (
-            <Button
-              size="lg"
-              variant="outline"
-              className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20"
-              onClick={prevPage}
-              data-testid="button-prev-page"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
-          )}
-          {currentPage < totalPages && (
-            <Button
-              size="lg"
-              variant="outline"
-              className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20"
-              onClick={nextPage}
-              data-testid="button-next-page"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </Button>
-          )}
-        </>
-      )}
-
       {/* Page indicator dots */}
       {currentPage > 0 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-40 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg" data-testid="page-indicators">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-40 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg" data-testid="page-indicators">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
@@ -223,6 +195,39 @@ export default function Scrapbook() {
               data-testid={`indicator-page-${page}`}
             />
           ))}
+        </div>
+      )}
+
+      {/* Navigation Arrows (visible on scrapbook pages) */}
+      {currentPage > 0 && (
+        <div className="fixed bottom-6 left-0 right-0 flex justify-between px-4 md:px-8 z-40 pointer-events-none">
+          {currentPage > 1 ? (
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20 pointer-events-auto"
+              onClick={prevPage}
+              data-testid="button-prev-page"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+          ) : (
+            <div className="w-14 h-14" />
+          )}
+          
+          {currentPage < totalPages ? (
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20 pointer-events-auto"
+              onClick={nextPage}
+              data-testid="button-next-page"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          ) : (
+            <div className="w-14 h-14" />
+          )}
         </div>
       )}
     </div>
