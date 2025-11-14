@@ -152,29 +152,18 @@ export default function Scrapbook() {
         </div>
       )}
 
-      {/* Music Toggle Button (visible on all pages except cover) */}
+      {/* Home Button (visible on all pages except cover) */}
       {currentPage > 0 && (
-        <>
-          <Button
-            size="icon"
-            variant="outline"
-            className="fixed top-4 right-4 z-40 rounded-full shadow-lg hover-elevate"
-            onClick={toggleMusic}
-            data-testid="button-music-toggle"
-          >
-            {isMusicPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-          </Button>
-          <Button
-            size="icon"
-            variant="outline"
-            className="fixed top-4 left-4 z-40 rounded-full shadow-lg hover-elevate"
-            onClick={() => setCurrentPage(0)}
-            data-testid="button-home"
-            title="Back to cover"
-          >
-            <Heart className="w-5 h-5" />
-          </Button>
-        </>
+        <Button
+          size="icon"
+          variant="outline"
+          className="fixed top-4 left-4 z-40 rounded-full shadow-lg hover-elevate"
+          onClick={() => setCurrentPage(0)}
+          data-testid="button-home"
+          title="Back to cover"
+        >
+          <Heart className="w-5 h-5" />
+        </Button>
       )}
 
       {/* Main Content Area */}
