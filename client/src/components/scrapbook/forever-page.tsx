@@ -1,16 +1,90 @@
 import { Button } from '@/components/ui/button';
 import { Music } from 'lucide-react';
 import { Heart } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface ForeverPageProps {
   onMusicToggle: () => void;
   isMusicPlaying: boolean;
 }
 
+interface FallingImage {
+  id: number;
+  src: string;
+  left: number;
+  duration: number;
+  delay: number;
+  size: number;
+  rotation: number;
+}
+
 export function ForeverPage({ onMusicToggle, isMusicPlaying }: ForeverPageProps) {
+  const [fallingImages, setFallingImages] = useState<FallingImage[]>([]);
+
+  // Available images for falling effect
+  const imageUrls = [
+    '/photos/first-date-1.jpg',
+    '/photos/how-we-met-1.jpg',
+    '/photos/how-we-met-2.jpg',
+    '/photos/first-date-memory.jpg',
+    '/photos/church-together.jpg',
+    '/photos/gifts.jpg',
+    '/photos/adventure-memory.jpg',
+    '/photos/first-hug.jpg',
+    '/photos/just-us.jpg',
+  ];
+
+  // Generate falling images when music plays
+  useEffect(() => {
+    if (isMusicPlaying) {
+      const images: FallingImage[] = [];
+      for (let i = 0; i < 20; i++) {
+        images.push({
+          id: i,
+          src: imageUrls[Math.floor(Math.random() * imageUrls.length)],
+          left: Math.random() * 100,
+          duration: 8 + Math.random() * 4,
+          delay: Math.random() * 3,
+          size: 60 + Math.random() * 80,
+          rotation: Math.random() * 40 - 20,
+        });
+      }
+      setFallingImages(images);
+    } else {
+      setFallingImages([]);
+    }
+  }, [isMusicPlaying]);
   return (
-    <div className="w-full max-w-3xl mx-auto page-flip">
-      <div className="space-y-12 text-center px-4 min-h-[70vh] flex flex-col justify-center">
+    <div className="w-full max-w-3xl mx-auto page-flip relative">
+      {/* Falling Images Effect */}
+      {fallingImages.length > 0 && (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+          {fallingImages.map((img) => (
+            <div
+              key={img.id}
+              className="absolute -top-20 opacity-70 rounded-lg shadow-lg animate-fall"
+              style={{
+                left: `${img.left}%`,
+                width: `${img.size}px`,
+                height: `${img.size}px`,
+                animationDuration: `${img.duration}s`,
+                animationDelay: `${img.delay}s`,
+              }}
+            >
+              <img
+                src={img.src}
+                alt="Memory"
+                className="w-full h-full object-cover rounded-lg border-4 border-white shadow-xl"
+                style={{
+                  transform: `rotate(${img.rotation}deg)`,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="space-y-12 text-center px-4 min-h-[70vh] flex flex-col justify-center relative z-10">
         {/* Main message */}
         <div className="space-y-6 fade-in-up">
           <p

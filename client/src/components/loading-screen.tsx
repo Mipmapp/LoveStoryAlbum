@@ -12,6 +12,9 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
   const [totalImages, setTotalImages] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
+    const imageRefs: HTMLImageElement[] = [];
+
     const imagesToPreload = [
       '/photos/first-date-1.jpg',
       '/photos/first-date-2.jpg',
@@ -33,12 +36,18 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
     const loadImage = (src: string): Promise<void> => {
       return new Promise((resolve) => {
         const img = new Image();
+        imageRefs.push(img);
+        
         img.onload = () => {
-          setLoadedImages((prev) => prev + 1);
+          if (isMounted) {
+            setLoadedImages((prev) => prev + 1);
+          }
           resolve();
         };
         img.onerror = () => {
-          setLoadedImages((prev) => prev + 1);
+          if (isMounted) {
+            setLoadedImages((prev) => prev + 1);
+          }
           resolve();
         };
         img.src = src;
@@ -47,12 +56,23 @@ export function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
 
     const loadAllImages = async () => {
       await Promise.all(imagesToPreload.map(loadImage));
-      setTimeout(() => {
-        onLoadComplete();
-      }, 500);
+      if (isMounted) {
+        setTimeout(() => {
+          onLoadComplete();
+        }, 500);
+      }
     };
 
     loadAllImages();
+
+    return () => {
+      isMounted = false;
+      imageRefs.forEach(img => {
+        img.onload = null;
+        img.onerror = null;
+        img.src = '';
+      });
+    };
   }, [onLoadComplete]);
 
   useEffect(() => {
