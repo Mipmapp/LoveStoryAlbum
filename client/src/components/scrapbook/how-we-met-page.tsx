@@ -25,11 +25,20 @@ export function HowWeMetPage() {
             style={{ transform: 'rotate(-3deg)', animationDelay: '0.2s', '--rotation': '-3deg' } as React.CSSProperties}
             data-testid="polaroid-photo-1"
           >
-            <div className="aspect-square w-48 bg-gradient-to-br from-primary/20 to-accent/30 mb-4 flex items-center justify-center">
-              <Camera className="w-20 h-20 text-primary/40 stroke-[1.5]" />
+            <div className="aspect-square w-48 mb-4 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/30 flex items-center justify-center">
+              <img 
+                src="/photos/how-we-met-1.jpg" 
+                alt="How we met - Photo 1"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Show placeholder if image not found
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<svg class="w-20 h-20 text-primary/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>';
+                }}
+              />
             </div>
             <p className="text-center font-playful text-sm text-gray-700">
-              Your photo here
+              The moment we met
             </p>
           </Card>
 
@@ -39,11 +48,20 @@ export function HowWeMetPage() {
             style={{ transform: 'rotate(2deg)', animationDelay: '0.4s', '--rotation': '2deg' } as React.CSSProperties}
             data-testid="polaroid-photo-2"
           >
-            <div className="aspect-square w-48 bg-gradient-to-br from-accent/30 to-primary/20 mb-4 flex items-center justify-center">
-              <Camera className="w-20 h-20 text-primary/40 stroke-[1.5]" />
+            <div className="aspect-square w-48 mb-4 overflow-hidden bg-gradient-to-br from-accent/30 to-primary/20 flex items-center justify-center">
+              <img 
+                src="/photos/how-we-met-2.jpg" 
+                alt="How we met - Photo 2"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Show placeholder if image not found
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<svg class="w-20 h-20 text-primary/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>';
+                }}
+              />
             </div>
             <p className="text-center font-playful text-sm text-gray-700">
-              My photo here
+              Our first smile
             </p>
           </Card>
         </div>
