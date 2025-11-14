@@ -10,16 +10,23 @@ import { FavoriteMemoriesPage } from '@/components/scrapbook/favorite-memories-p
 import { ReasonsILoveYouPage } from '@/components/scrapbook/reasons-page';
 import { LoveLetterPage } from '@/components/scrapbook/love-letter-page';
 import { ForeverPage } from '@/components/scrapbook/forever-page';
+import { StoryPage } from '@/components/scrapbook/story-page';
+
+// Import pages configuration
+import { scrapbookPages } from '@/config/scrapbook-pages';
 
 // Using a soft romantic piano music from a free source
 // You can replace this URL with your own song URL
 const BACKGROUND_MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
 
 export default function Scrapbook() {
-  // Current page state (0 = cover, 1-6 = scrapbook pages)
+  // Current page state (0 = cover, 1+ = scrapbook pages)
   const [currentPage, setCurrentPage] = useState(0);
   const [isScrapbookOpen, setIsScrapbookOpen] = useState(false);
   const [showHiddenSurprise, setShowHiddenSurprise] = useState(false);
+  
+  // Calculate total pages from configuration
+  const totalPages = scrapbookPages.length - 1; // -1 because cover is index 0
   
   // Audio playback hook
   const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useAudio(BACKGROUND_MUSIC_URL);
@@ -60,9 +67,9 @@ export default function Scrapbook() {
     setCurrentPage(1);
   };
 
-  // Navigate between pages (pages 1-5 are available)
+  // Navigate between pages
   const nextPage = () => {
-    if (currentPage < 5) {
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -73,25 +80,37 @@ export default function Scrapbook() {
     }
   };
 
-  // Render the current page
+  // Render the current page based on configuration
   const renderPage = () => {
-    switch (currentPage) {
-      case 0:
+    const pageConfig = scrapbookPages[currentPage];
+    
+    if (!pageConfig) {
+      return <CoverPage onOpen={openScrapbook} data-testid="page-cover" />;
+    }
+    
+    // Render story pages
+    if (pageConfig.type === 'story' && pageConfig.data) {
+      return <StoryPage data={pageConfig.data} data-testid={`page-${pageConfig.id}`} />;
+    }
+    
+    // Render special pages
+    switch (pageConfig.id) {
+      case 'cover':
         return <CoverPage onOpen={openScrapbook} data-testid="page-cover" />;
-      case 1:
+      case 'how-we-met':
         return <HowWeMetPage data-testid="page-how-we-met" />;
-      case 2:
+      case 'favorite-memories':
         return (
           <FavoriteMemoriesPage
             onHiddenClick={() => setShowHiddenSurprise(true)}
             data-testid="page-favorite-memories"
           />
         );
-      case 3:
+      case 'reasons':
         return <ReasonsILoveYouPage data-testid="page-reasons" />;
-      case 4:
+      case 'love-letter':
         return <LoveLetterPage data-testid="page-love-letter" />;
-      case 5:
+      case 'forever':
         return <ForeverPage onMusicToggle={toggleMusic} isMusicPlaying={isMusicPlaying} data-testid="page-forever" />;
       default:
         return <CoverPage onOpen={openScrapbook} data-testid="page-cover" />;
@@ -135,15 +154,27 @@ export default function Scrapbook() {
 
       {/* Music Toggle Button (visible on all pages except cover) */}
       {currentPage > 0 && (
-        <Button
-          size="icon"
-          variant="outline"
-          className="fixed top-4 right-4 z-40 rounded-full shadow-lg hover-elevate"
-          onClick={toggleMusic}
-          data-testid="button-music-toggle"
-        >
-          {isMusicPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-        </Button>
+        <>
+          <Button
+            size="icon"
+            variant="outline"
+            className="fixed top-4 right-4 z-40 rounded-full shadow-lg hover-elevate"
+            onClick={toggleMusic}
+            data-testid="button-music-toggle"
+          >
+            {isMusicPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            className="fixed top-4 left-4 z-40 rounded-full shadow-lg hover-elevate"
+            onClick={() => setCurrentPage(0)}
+            data-testid="button-home"
+            title="Back to cover"
+          >
+            <Heart className="w-5 h-5" />
+          </Button>
+        </>
       )}
 
       {/* Main Content Area */}
@@ -151,25 +182,25 @@ export default function Scrapbook() {
         {renderPage()}
       </div>
 
-      {/* Navigation Arrows (only show on scrapbook pages, not cover or forever page) */}
-      {currentPage > 0 && currentPage < 5 && (
+      {/* Navigation Arrows (visible on scrapbook pages) */}
+      {currentPage > 0 && (
         <>
           {currentPage > 1 && (
             <Button
-              size="icon"
-              variant="ghost"
-              className="fixed left-4 bottom-4 z-40 rounded-full hover-elevate"
+              size="lg"
+              variant="outline"
+              className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20"
               onClick={prevPage}
               data-testid="button-prev-page"
             >
               <ChevronLeft className="w-6 h-6" />
             </Button>
           )}
-          {currentPage < 5 && (
+          {currentPage < totalPages && (
             <Button
-              size="icon"
-              variant="ghost"
-              className="fixed right-4 bottom-4 z-40 rounded-full hover-elevate"
+              size="lg"
+              variant="outline"
+              className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 rounded-full shadow-lg bg-card/90 backdrop-blur-sm hover:bg-card hover:scale-110 transition-all duration-300 border-2 border-primary/20"
               onClick={nextPage}
               data-testid="button-next-page"
             >
@@ -181,13 +212,13 @@ export default function Scrapbook() {
 
       {/* Page indicator dots */}
       {currentPage > 0 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-40" data-testid="page-indicators">
-          {[1, 2, 3, 4, 5].map((page) => (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-40 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg" data-testid="page-indicators">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentPage === page ? 'bg-primary w-6' : 'bg-muted hover-elevate'
+              className={`rounded-full transition-all duration-300 ${
+                currentPage === page ? 'bg-primary w-6 h-3' : 'bg-muted w-2 h-2 hover:bg-primary/50 hover:scale-125'
               }`}
               data-testid={`indicator-page-${page}`}
             />
