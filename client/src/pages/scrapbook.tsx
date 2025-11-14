@@ -223,7 +223,9 @@ export default function Scrapbook() {
           className="fixed inset-0 pointer-events-none overflow-hidden z-0"
           style={{
             opacity: isOurSongPlaying ? 1 : 0,
-            transition: 'opacity 5000ms ease-in-out',
+            transition: isOurSongPlaying 
+              ? 'opacity 8000ms ease-in-out'  // 8 seconds fade-in
+              : 'opacity 2000ms ease-in-out', // 2 seconds fade-out
           }}
         >
           {/* Generate falling images here */}
