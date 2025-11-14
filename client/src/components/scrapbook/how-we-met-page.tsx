@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { Camera, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export function HowWeMetPage() {
   return (
