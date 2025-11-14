@@ -179,6 +179,9 @@ export default function Scrapbook() {
       '/photos/adventure-memory.jpg',
       '/photos/first-hug.jpg',
       '/photos/just-us.jpg',
+      '/photos/moment1.jpg',
+      '/photos/moment2.jpg',
+      '/photos/adventure.jpg',
     ];
     
     return Array.from({ length: 50 }, (_, i) => ({
