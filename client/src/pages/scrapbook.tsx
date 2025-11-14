@@ -31,6 +31,11 @@ export default function Scrapbook() {
   // Audio playback hook
   const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useAudio(BACKGROUND_MUSIC_URL);
 
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   // Heart cursor trail effect
   useEffect(() => {
     const createHeart = (e: MouseEvent) => {
