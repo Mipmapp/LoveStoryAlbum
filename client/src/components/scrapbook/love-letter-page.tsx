@@ -66,26 +66,32 @@ export function LoveLetterPage() {
                   </div>
 
                   <div className="space-y-4 font-handwritten text-xl md:text-2xl text-gray-700 leading-relaxed">
-                    <p>My dearest love,</p>
+                    <p>My dearest Jezza Mae,</p>
 
                     <p>
-                      Words cannot fully express how much you mean to me. Every moment we spend together is a treasure 
-                      I hold close to my heart. You've shown me what true love feels like - it's in the little things, 
-                      the quiet moments, the shared laughter, and even the comfortable silences.
+                      From the moment we met in Grade 11, my life changed in ways I never imagined. You weren't my best friend at first, 
+                      but being with you felt right - comfortable, natural, like finding home in a person. Every interaction, every moment 
+                      with you has filled my heart with joy.
                     </p>
 
                     <p>
-                      Thank you for being my partner, my confidant, my best friend. Thank you for choosing me every day, 
-                      for believing in us, and for making life so incredibly beautiful.
+                      I love you so much, Jezza. I love love love you more than words can say. Every smile, every laugh, every time I see 
+                      your face - my heart is filled with happiness. I'm learning everything about you - your favorites, your dreams, 
+                      even your adorable baby mode - and I love every single part of you.
                     </p>
 
                     <p>
-                      I promise to always cherish you, support you, and love you with all my heart. Our story is my 
-                      favorite story, and I can't wait to write so many more chapters together.
+                      Thank you, God, for answering my prayers and bringing us together. From San Isidro Falls where our romance began, 
+                      to the Church where we asked for His blessing on November 13, 2025 - every moment with you is a gift from above.
+                    </p>
+
+                    <p>
+                      You make every moment happy, every day brighter, and every dream more beautiful. I promise to love you, cherish you, 
+                      and thank God for you every single day. Our story is my favorite story, and I can't wait to write forever with you.
                     </p>
 
                     <div className="pt-4">
-                      <p>Forever and always,</p>
+                      <p>Forever yours,</p>
                       <div className="flex items-center justify-start gap-2 mt-2">
                         <p className="text-3xl">Your Love</p>
                         <Heart className="w-6 h-6 text-red-400 fill-red-300" />

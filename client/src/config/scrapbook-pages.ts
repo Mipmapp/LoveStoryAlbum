@@ -23,11 +23,11 @@ export const scrapbookPages: PageConfig[] = [
     type: 'story',
     data: {
       title: 'Our First Date',
-      subtitle: 'The beginning of everything',
+      subtitle: 'San Isidro Falls - Where it all began',
       content: [
-        'I remember every detail of that day. The way you smiled when you saw me, how nervous I was, and how quickly all that nervousness melted away the moment we started talking.',
-        'We walked for hours, talking about everything and nothing. Time seemed to stand still, yet it flew by too quickly. I knew then that this was the start of something special.',
-        'That first date wasn\'t just the beginning of our romance - it was the moment I realized I wanted to spend every day getting to know you better.',
+        'Our first date was magical in the most unexpected way. We started in Amparo, but when we found it too crowded, we decided to venture somewhere more special - San Isidro Falls. The moment we arrived, my heart raced with nervous excitement and pure joy.',
+        'Just the two of us, surrounded by the beauty of the waterfall. We shared snacks, captured memories with photos, and then came the moment I\'ll never forget - I gathered all my courage and asked if I could court you. When you said yes, my world changed forever.',
+        'I held both your hands, gave you a tender forehead kiss, followed by our first kiss on the lips, and held you tightly in my arms. Your smile that day - it\'s etched in my heart forever. We kissed five times that beautiful day. It was the best investment of my life.',
       ],
       images: [
         {
@@ -55,11 +55,11 @@ export const scrapbookPages: PageConfig[] = [
     type: 'story',
     data: {
       title: 'Our Adventures',
-      subtitle: 'Exploring the world together',
+      subtitle: 'Every journey with you is home',
       content: [
-        'Every adventure with you becomes my favorite memory. From spontaneous road trips to quiet walks in the park, each moment spent together is an adventure in itself.',
-        'I love how we can turn the ordinary into extraordinary. A simple coffee date becomes a deep conversation, a rainy day becomes a cozy movie marathon, and every sunset we watch together feels like it was painted just for us.',
-        'With you, I\'ve learned that the best adventures aren\'t always about the destination, but about having you by my side for the journey.',
+        'From Amparo to San Isidro Falls on our unforgettable first date, to our first hug in Dapitan, and those precious October nights after intramurals when I rode you home on my motorcycle - each adventure writes another page in our story.',
+        'November 14, 2025, became another chapter when we explored Dapitan together. From the City Hall near the Coastal Area to our joyride to Dakak, every destination felt special because you were with me. But the most meaningful place was the Church.',
+        'At the Church, we asked God to bless our relationship. The night before, November 13, 2025, you said yes to being my girlfriend. I had prayed for this moment, and standing there with you, I thanked God for answering my prayers. Every place we visit becomes sacred because our love story is blessed.',
       ],
       images: [
         {

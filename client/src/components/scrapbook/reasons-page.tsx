@@ -2,14 +2,14 @@ import { Heart } from 'lucide-react';
 
 export function ReasonsILoveYouPage() {
   const reasons = [
-    { text: 'Your cuteness melts me every time', color: 'bg-yellow-100', rotation: -3 },
-    { text: 'Your presence makes everything feel lovely', color: 'bg-pink-100', rotation: 2 },
-    { text: 'You understand my heart in ways I can’t explain', color: 'bg-blue-100', rotation: -2 },
-    { text: 'You are breathtakingly beautiful', color: 'bg-green-100', rotation: 3 },
-    { text: 'Your smile lights up my world', color: 'bg-purple-100', rotation: -4 },
-    { text: 'You know me better than anyone ever has', color: 'bg-orange-100', rotation: 2 },
-    { text: 'You turn simple moments into unforgettable memories', color: 'bg-red-100', rotation: -3 },
-    { text: "With you, I feel safe, warm, and completely comfortable", color: 'bg-teal-100', rotation: 4 },
+    { text: 'Your smile makes every moment unforgettable', color: 'bg-yellow-100', rotation: -3 },
+    { text: 'Being with you feels like coming home', color: 'bg-pink-100', rotation: 2 },
+    { text: 'Every interaction with you fills my heart with joy', color: 'bg-blue-100', rotation: -2 },
+    { text: 'Your baby mode melts my heart completely', color: 'bg-green-100', rotation: 3 },
+    { text: 'You make every moment happy, truly happy', color: 'bg-purple-100', rotation: -4 },
+    { text: 'Learning about you is my favorite adventure', color: 'bg-orange-100', rotation: 2 },
+    { text: 'With you, comfortable silence feels beautiful', color: 'bg-red-100', rotation: -3 },
+    { text: "You're the answer to my prayers, my gift from God", color: 'bg-teal-100', rotation: 4 },
   ];
 
 

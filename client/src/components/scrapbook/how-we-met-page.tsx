@@ -71,12 +71,12 @@ export function HowWeMetPage() {
           <Card className="p-8 shadow-lg">
             <div className="space-y-4">
               <p className="text-lg leading-relaxed text-card-foreground font-sans" data-testid="text-our-story">
-                I remember the first time I saw you like it was yesterday. The way you smiled, the way you laughed - 
-                everything about that moment felt like magic. I never believed in love at first sight until that day.
+                Grade 11. That's when our paths crossed, and though I didn't know it then, it was the start of my greatest love story. 
+                You were never my best friend at first, but something about being around you felt different - comfortable, natural, like I could just be myself.
               </p>
               <p className="text-lg leading-relaxed text-card-foreground font-sans">
-                From that moment on, every day with you has been an adventure. You've brought so much joy, laughter, 
-                and love into my life. Thank you for being my person, my best friend, my everything.
+                From that unexpected day forward, every moment with you has revealed something beautiful. You've shown me that love doesn't always announce itself with fireworks - 
+                sometimes it quietly grows in the comfort of simply being together.
               </p>
             </div>
           </Card>
