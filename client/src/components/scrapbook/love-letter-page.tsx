@@ -69,25 +69,25 @@ export function LoveLetterPage() {
                     <p>My dearest Jezza Mae,</p>
 
                     <p>
-                      From the moment we met in Grade 11, my life changed in ways I never imagined. You weren't my best friend at first, 
-                      but being with you felt right - comfortable, natural, like finding home in a person. Every interaction, every moment 
+                      From the moment we met in Grade 11, my life changed in ways I never imagined. You weren't my close friend at first, 
+                      but being with you felt right, comfortable, natural, like finding home in a person. Every interaction, every moment 
                       with you has filled my heart with joy.
                     </p>
 
                     <p>
-                      I love you so much, Jezza. I love love love you more than words can say. Every smile, every laugh, every time I see 
-                      your face - my heart is filled with happiness. I'm learning everything about you - your favorites, your dreams, 
+                      I love you so much, Jezza, my Mommy. I love love love you more than words can say. Every smile, every laugh, every time I see 
+                      your face makes my heart filled with happiness. I'm learning everything about you - your favorites, your dreams, 
                       even your adorable baby mode - and I love every single part of you.
                     </p>
 
                     <p>
-                      Thank you, God, for answering my prayers and bringing us together. From San Isidro Falls where our romance began, 
-                      to the Church where we asked for His blessing on November 13, 2025 - every moment with you is a gift from above.
+                      I Thank God, for answering my prayers and bringing us together. From San Isidro Falls where our romance began, 
+                      to the Church where we asked for His blessings, and in every moment with you is a gift from above.
                     </p>
 
                     <p>
                       You make every moment happy, every day brighter, and every dream more beautiful. I promise to love you, cherish you, 
-                      and thank God for you every single day. Our story is my favorite story, and I can't wait to write forever with you.
+                      and thank God for you every single day. Our story is just the beginning, my favorite story, and I can't wait to write forever with you.
                     </p>
 
                     <div className="pt-4">
